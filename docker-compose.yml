@@ -4,10 +4,22 @@ services:
   app:
     build:
       context: .
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
-      - .:/app
-    command: sh -c "python3 manage.py runserver 0.0.0.0:8000"
+      - static_data:/app/staticfiles
     environment:
-      - DEBUG=1
+      - SECRET_KEY=samplesecretkey123
+      - ALLOWED_HOSTS=127.0.0.1, localhost
+  proxy:
+    build:
+      context: ./proxy
+    volumes:
+      - static_data:/vol/static
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+
+volumes:
+  static_data:
