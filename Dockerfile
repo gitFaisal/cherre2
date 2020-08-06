@@ -9,6 +9,7 @@ RUN apk del .tmp
 
 RUN mkdir /app
 COPY . /app
+RUN ls -lah /app 
 WORKDIR /app
 RUN chmod -R 777 /app
 COPY ./scripts /scripts
@@ -21,8 +22,7 @@ RUN mkdir -p /vol/web/static
 RUN adduser -D user
 RUN chown -R user:user /vol
 RUN chmod -R 755 /vol/web
-EXPOSE 8000
 
 USER user
 
-CMD ["entrypoint.sh"]
+CMD ["/scripts/entrypoint.sh"]
